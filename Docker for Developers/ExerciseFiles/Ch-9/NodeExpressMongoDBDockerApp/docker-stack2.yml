@@ -1,0 +1,47 @@
+mongo:
+  image: 'btree/dfd-mongo:latest'
+  ports:
+    - '27017:27017'
+nginx:
+  image: 'btree/dfd-nginx:latest'
+  links:
+    - node1
+    - node2
+    - node3
+  ports:
+    - '80:80'
+    - '443:443'
+node1:
+  image: 'btree/dfd-node:latest'
+  environment:
+    - NODE_ENV=production
+  links:
+    - mongo
+    - redis
+  ports:
+    - '8080'
+  working_dir: /var/www/ 
+node2:
+  image: 'btree/dfd-node:latest'
+  environment:
+    - NODE_ENV=production
+  links:
+    - mongo
+    - redis
+  ports:
+    - '8080'
+  working_dir: /var/www/ 
+node3:
+  image: 'btree/dfd-node:latest'
+  environment:
+    - NODE_ENV=production
+  links:
+    - mongo
+    - redis
+  ports:
+    - '8080'
+  working_dir: /var/www/ 
+redis:
+  image: 'btree/dfd-redis:latest'
+  ports:
+    - '6379'
